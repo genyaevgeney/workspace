@@ -1,21 +1,7 @@
-const mysql = require('mysql2');
+require('dotenv').config();
 
-const connection = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	database: "DonatingPlatform",
-	password: "password"
-});
+const Knex = require('knex');
+const knexConfig = require('./knexfile');
+const knex = Knex(knexConfig[process.env.NODE_ENV]);
 
-exports.mysqlConnect = () => {
-	connection.connect((err) => {
-		if (err) {
-			return console.error("Error: " + err.message);
-		}
-		else{
-			console.log("Connection to MySQL server successfully established");
-		}
-	});
-}
-
-module.exports.connection = connection;
+module.exports = knex;
