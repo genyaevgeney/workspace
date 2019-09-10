@@ -17,3 +17,5 @@ exports.mysqlConnect = () => {
 		}
 	});
 }
+
+module.exports.connection = connection;
