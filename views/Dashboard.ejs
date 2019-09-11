@@ -4,13 +4,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="initial-scale=1.0, width=device-width">
 	<title>Dashboard</title>
-	<link rel="shortcut icon" type="image/x-icon" href="./public/fav/favicon.png">
+	<link rel="shortcut icon" type="image/x-icon" href="./public/fav/favicon.svg">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="./public/css/Dashboard.css">
 </head>
 <body>
+	<script>
+		
+	</script>
 	<div class="Donating__header">
 		<div class="container">
 			<div class="row Donating__row-of-header">
@@ -32,26 +35,76 @@
 			<div class="col-4">
 				<div class="Donating__information-block first-block">
 					<p class="Donating__block-headline">Top Donator</p>
-					<p class="Donating__block-price">$23423</p>
-					<p class="Donating__block-person">Person</p>
+					<p class="Donating__block-price">$<%=maxAmount%></p>
+					<p class="Donating__block-person"><%=topDonator%></p>
 				</div>
 			</div>
 			<div class="col-4">
 				<div class="Donating__information-block second-block">
 					<p class="Donating__block-headline">Last Month Amount</p>
-					<p class="Donating__block-price">$0</p>
+					<p class="Donating__block-price">$<%=amountForThisMonth%></p>
 				</div>
 			</div>
 			<div class="col-4">
 				<div class="Donating__information-block third-block">
 					<p class="Donating__block-headline">All time amount</p>
-					<p class="Donating__block-price">$24577.7</p>
+					<p class="Donating__block-price">$<%=amount%></p>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="container-fluid">
-		<div class="row">
+		<div class="Donating__main-info">
+			<table class="Donating__table">
+				<tr class="Donating__tb-row main">
+					<td class="Donating__tb-col headline">Donator Name</td>
+					<td class="Donating__tb-col headline">Email</td>
+					<td class="Donating__tb-col headline">Amount</td>
+					<td class="Donating__tb-col headline">Message</td>
+					<td class="Donating__tb-col headline">Date</td>
+				</tr>
+				<% for (let i = 0; i < donations.length; i++) { %>
+				<tr class="Donating__tb-row main">
+					<td class="Donating__tb-col"><%=donations[i].volunteer_name%></td>
+					<td class="Donating__tb-col"><%=donations[i].email%></td>
+					<td class="Donating__tb-col"><%=donations[i].amount%></td>
+					<td class="Donating__tb-col"><%=donations[i].message%></td>
+					<td class="Donating__tb-col"><%= JSON.stringify(donations[i].date).substring(1, 11);%> <%= JSON.stringify(donations[i].date).substring(12, 20);%></td>
+				</tr>
+				<% } %>
+			</table>
+		</div>
+		<div class="Donating__pagination">
+			<% if (pages > 0) { %>
+			<ul class="pagination text-center">
+				<% if (current == 1) { %>
+				<li class="disabled"><a>First</a></li>
+				<% } else { %>
+				<li><a href="/1">First</a></li>
+				<% } %>
+				<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+				<% if (i !== 1) { %>
+				<li class="disabled"><a>...</a></li>
+				<% } %>
+				<% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+				<% if (i == current) { %>
+				<li class="active"><a><%= i %></a></li>
+				<% } else { %>
+				<li><a href="/<%= i %>"><%= i %></a></li>
+				<% } %>
+				<% if (i == Number(current) + 4 && i < pages) { %>
+				<li class="disabled"><a>...</a></li>
+				<% } %>
+				<% } %>
+				<% if (current == pages) { %>
+				<li class="disabled"><a>Last</a></li>
+				<% } else { %>
+				<li><a href="/<%= pages %>">Last</a></li>
+				<% } %>
+			</ul>
+			<% } %>
+		</div>
+		<!-- <div class="row">
 			<div class="col-12">
 				<p class="Donating__test">
 					<span></span>
@@ -194,7 +247,7 @@
 					<span></span>
 				</p>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
