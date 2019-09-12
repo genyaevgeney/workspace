@@ -11,14 +11,11 @@
 	<link rel="stylesheet" href="./public/css/Dashboard.css">
 </head>
 <body>
-	<script>
-		
-	</script>
 	<div class="Donating__header">
 		<div class="container">
 			<div class="row Donating__row-of-header">
 				<div class="col-2">
-					<a href="/" class="Donating__link">
+					<a href="/page=1" class="Donating__link">
 						Dashboard
 					</a>
 				</div>
@@ -53,6 +50,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="container-fluid Donating__container-chart">
+		<div id="curve_chart" class="Donating__chart"></div>
+	</div>
 	<div class="container-fluid">
 		<div class="Donating__main-info">
 			<table class="Donating__table">
@@ -80,7 +80,7 @@
 				<% if (current == 1) { %>
 				<li class="disabled"><a>First</a></li>
 				<% } else { %>
-				<li><a href="/1">First</a></li>
+				<li><a href="/page=1">First</a></li>
 				<% } %>
 				<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
 				<% if (i !== 1) { %>
@@ -90,7 +90,7 @@
 				<% if (i == current) { %>
 				<li class="active"><a><%= i %></a></li>
 				<% } else { %>
-				<li><a href="/<%= i %>"><%= i %></a></li>
+				<li><a href="page=<%= i %>"><%= i %></a></li>
 				<% } %>
 				<% if (i == Number(current) + 4 && i < pages) { %>
 				<li class="disabled"><a>...</a></li>
@@ -99,159 +99,39 @@
 				<% if (current == pages) { %>
 				<li class="disabled"><a>Last</a></li>
 				<% } else { %>
-				<li><a href="/<%= pages %>">Last</a></li>
+				<li><a href="page=<%= pages %>">Last</a></li>
 				<% } %>
 			</ul>
 			<% } %>
 		</div>
-		<!-- <div class="row">
-			<div class="col-12">
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-				<p class="Donating__test">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</p>
-			</div>
-		</div> -->
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<script src="./public/js/script.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+				['Date', 'Amount'],
+				<% for (let i = 0; i < dataForChart.length; i++) { %>
+					['<%= JSON.stringify(dataForChart[i].date).substring(1, 11);%> <%= JSON.stringify(dataForChart[i].date).substring(12, 20);%>',  <%=dataForChart[i].sum%>],
+					<% } %>
+					]);
+
+			var options = {
+				title: 'Donation Statistics',
+				curveType: 'function',
+				legend: { position: 'bottom' }
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+			chart.draw(data, options);
+		}
+	</script>
+	<script src="./public/js/DashboardScript.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@ const pathDonatePageHtml = "./views/ToDonatePage.ejs";
 const pathDonatePageCss = "./public/css/ToDonatePage.css";
 const pathErrorPage = "./views/Error.ejs";
 const pathErrorPageCss = "./public/css/Error.css";
+const pathDashboardScript = "./public/js/DashboardScript.js";
 
 let serveFile = (fPath, req, res, obj = {}) => {
 	const filePath = fPath;
@@ -24,7 +25,7 @@ let serveFile = (fPath, req, res, obj = {}) => {
 }
 
 let redirectToMainPage = (req, res) => {
-	res.writeHead(301, { "Location": "http://" + req.headers['host'] + '/1' });
+	res.writeHead(301, { "Location": "http://" + req.headers['host'] + '/page=1' });
 	res.end();
 }
 
@@ -48,21 +49,24 @@ exports.getMainPageHtml = (req, res) => {
 				donation.getAmountForThisMonth().then(amountForThisMonth => {
 					donation.getTopDonator(maxAmount).then(topDonator => {
 						donation.sumAmount().then(amount => {
-							donation.selectDataForPage(perPage, page).then(donations => {
-								let currentPage = Number(req.params.page);
-								if(isNaN(currentPage) || currentPage > pages) {
-									getErrorPage(req, res);
-								} else {
-									serveFile(pathMainPageHtml, req, res, {
-										donations: donations,
-										current: page,
-										pages: pages,
-										maxAmount: maxAmount,
-										topDonator: topDonator,
-										amount: amount,
-										amountForThisMonth: amountForThisMonth
-									});
-								}
+							donation.getInformationForChart().then(dataForChart => {
+								donation.selectDataForPage(perPage, page).then(donations => {
+									let currentPage = Number(req.params.page);
+									if(isNaN(currentPage) || currentPage > pages) {
+										getErrorPage(req, res);
+									} else {
+										serveFile(pathMainPageHtml, req, res, {
+											donations: donations,
+											current: page,
+											pages: pages,
+											maxAmount: maxAmount,
+											topDonator: topDonator,
+											amount: amount,
+											amountForThisMonth: amountForThisMonth,
+											dataForChart: dataForChart
+										});
+									}
+								});
 							});
 						});
 					});
@@ -91,3 +95,5 @@ exports.receivingDonationData = (req, res) => {
 	donation.insertData(donationInfo);
 	redirectToMainPage(req, res);
 }
+
+exports.getDashboardScript = (req, res) => serveFile(pathDashboardScript, req, res);
